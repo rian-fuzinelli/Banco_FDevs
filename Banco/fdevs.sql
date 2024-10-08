@@ -6,21 +6,24 @@ USE MeuBancoDeProdutos;
 
 -- 3) Cria a tabela Production_Product, se ainda não existe
 CREATE TABLE IF NOT EXISTS Production_Product (
-    IDProduto INT NOT NULL AUTO_INCREMENT,
+    IDProduto INT NOT NULL AUTO_INCREMENT,  
     NomeProduto NVARCHAR(100) NOT NULL,  
-    CustoPadrao DECIMAL(10, 2) NOT NULL,
+    CustoPadrao DECIMAL(10, 2) NOT NULL, 
     PrecoLista DECIMAL(10, 2) NOT NULL, 
     UltimaAtualizacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (IDProduto) 
 );
 
--- 4) Insere o produto 'Smartphone' (somente se ainda não existe)
+-- 4) Insere o produto 'Smartphone' (somente se ainda não existir)
 INSERT INTO Production_Product (NomeProduto, CustoPadrao, PrecoLista)
 VALUES ('Smartphone', 200.00, 400.00);
 
--- 5) Insere o produto 'Mountain Bike Socks' (somente se ainda não existe)
+-- 5) Insere o produto 'Mountain Bike Socks' (somente se ainda não existir)
 INSERT INTO Production_Product (NomeProduto, CustoPadrao, PrecoLista)
 VALUES ('Mountain Bike Socks', 10.00, 20.00);
+
+-- Desativa o modo seguro temporariamente
+SET SQL_SAFE_UPDATES = 0;
 
 -- 6) Atualiza o preço de lista do produto 'Mountain Bike Socks' para 15.00 (caso exista)
 UPDATE Production_Product
@@ -59,14 +62,14 @@ WHERE IDCategoria IN (
     SELECT IDCategoria FROM Production_ProductCategory WHERE NomeCategoria = 'Clothing'
 );
 
--- 11) Cria a tabela Customer, se ainda não existe
+-- 11) Criar a tabela Customer, se ainda não existir
 CREATE TABLE IF NOT EXISTS Customer (
-    IDCliente INT NOT NULL AUTO_INCREMENT,  
-    Titulo NVARCHAR(10),                   
-    PrimeiroNome NVARCHAR(50) NOT NULL,    
+    IDCliente INT NOT NULL AUTO_INCREMENT,
+    Titulo NVARCHAR(10),                  
+    PrimeiroNome NVARCHAR(50) NOT NULL, 
     MeioInicial NVARCHAR(1),             
-    UltimoNome NVARCHAR(50) NOT NULL,     
-    PRIMARY KEY (IDCliente)               
+    UltimoNome NVARCHAR(50) NOT NULL,    
+    PRIMARY KEY (IDCliente)             
 );
 
 -- 12) Insere alguns clientes de exemplo
@@ -79,9 +82,9 @@ VALUES
 -- 13) Consulta para recuperar a lista única de nomes completos
 SELECT 
     CONCAT(
-        CASE WHEN Titulo IS NOT NULL THEN CONCAT(Titulo, ' ') ELSE '' END,
+        COALESCE(CONCAT(Titulo, ' '), ''),
         PrimeiroNome, ' ',
-        CASE WHEN MeioInicial IS NOT NULL THEN CONCAT(MeioInicial, '. ') ELSE '' END,
+        COALESCE(CONCAT(MeioInicial, '. '), ''),
         UltimoNome
     ) AS NomeCompleto
 FROM 
