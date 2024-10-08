@@ -1,39 +1,39 @@
--- 1) Criar o banco de dados, se ainda não existir
+-- 1) Cria o banco de dados, se ainda não existe
 CREATE DATABASE IF NOT EXISTS MeuBancoDeProdutos;
 
--- 2) Usar o banco de dados criado
+-- 2) Usa o banco de dados criado
 USE MeuBancoDeProdutos;
 
--- 3) Criar a tabela Production_Product, se ainda não existir
+-- 3) Cria a tabela Production_Product, se ainda não existe
 CREATE TABLE IF NOT EXISTS Production_Product (
-    IDProduto INT NOT NULL AUTO_INCREMENT,  -- Campo ID com auto-incremento
-    NomeProduto NVARCHAR(100) NOT NULL,    -- Nome do produto
-    CustoPadrao DECIMAL(10, 2) NOT NULL,   -- Custo padrão do produto
-    PrecoLista DECIMAL(10, 2) NOT NULL,    -- Preço de lista do produto
-    UltimaAtualizacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Data de última atualização
-    PRIMARY KEY (IDProduto) -- Definir a chave primária
+    IDProduto INT NOT NULL AUTO_INCREMENT,
+    NomeProduto NVARCHAR(100) NOT NULL,  
+    CustoPadrao DECIMAL(10, 2) NOT NULL,
+    PrecoLista DECIMAL(10, 2) NOT NULL, 
+    UltimaAtualizacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (IDProduto) 
 );
 
--- 4) Inserir o produto 'Smartphone' (somente se ainda não existir)
+-- 4) Insere o produto 'Smartphone' (somente se ainda não existe)
 INSERT INTO Production_Product (NomeProduto, CustoPadrao, PrecoLista)
 VALUES ('Smartphone', 200.00, 400.00);
 
--- 5) Inserir o produto 'Mountain Bike Socks' (somente se ainda não existir)
+-- 5) Insere o produto 'Mountain Bike Socks' (somente se ainda não existe)
 INSERT INTO Production_Product (NomeProduto, CustoPadrao, PrecoLista)
 VALUES ('Mountain Bike Socks', 10.00, 20.00);
 
--- 6) Atualizar o preço de lista do produto 'Mountain Bike Socks' para 15.00 (caso exista)
+-- 6) Atualiza o preço de lista do produto 'Mountain Bike Socks' para 15.00 (caso exista)
 UPDATE Production_Product
 SET PrecoLista = 15.00
 WHERE NomeProduto = 'Mountain Bike Socks';
 
--- 7) Recuperar os nomes e preços dos cinco produtos mais caros
+-- 7) Recupera os nomes e preços dos cinco produtos mais caros
 SELECT NomeProduto, PrecoLista
 FROM Production_Product
 ORDER BY PrecoLista DESC
 LIMIT 5;
 
--- 8) Selecionar o produto 'Smartphone'
+-- 8) Seleciona o produto 'Smartphone'
 SELECT NomeProduto, CustoPadrao, PrecoLista, UltimaAtualizacao
 FROM Production_Product
 WHERE NomeProduto = 'Smartphone';
@@ -51,7 +51,7 @@ JOIN
 WHERE 
     p.NomeProduto = 'Smartphone';
     
--- 10) Excluir todos os produtos da categoria 'Clothing'
+-- 10) Exclui todos os produtos da categoria 'Clothing'
 SET SQL_SAFE_UPDATES = 0;
 
 DELETE FROM Production_Product
@@ -59,17 +59,17 @@ WHERE IDCategoria IN (
     SELECT IDCategoria FROM Production_ProductCategory WHERE NomeCategoria = 'Clothing'
 );
 
--- 11) Criar a tabela Customer, se ainda não existir
+-- 11) Cria a tabela Customer, se ainda não existe
 CREATE TABLE IF NOT EXISTS Customer (
-    IDCliente INT NOT NULL AUTO_INCREMENT,  -- Campo ID do cliente com auto-incremento
-    Titulo NVARCHAR(10),                   -- Título do cliente (Ex: Sr., Sra., etc.)
-    PrimeiroNome NVARCHAR(50) NOT NULL,    -- Primeiro nome do cliente
-    MeioInicial NVARCHAR(1),               -- Inicial do meio nome
-    UltimoNome NVARCHAR(50) NOT NULL,      -- Último nome do cliente
-    PRIMARY KEY (IDCliente)                -- Definir a chave primária
+    IDCliente INT NOT NULL AUTO_INCREMENT,  
+    Titulo NVARCHAR(10),                   
+    PrimeiroNome NVARCHAR(50) NOT NULL,    
+    MeioInicial NVARCHAR(1),             
+    UltimoNome NVARCHAR(50) NOT NULL,     
+    PRIMARY KEY (IDCliente)               
 );
 
--- 12) Inserir alguns clientes de exemplo
+-- 12) Insere alguns clientes de exemplo
 INSERT INTO Customer (Titulo, PrimeiroNome, MeioInicial, UltimoNome)
 VALUES 
 ('Sr.', 'Rian', 'C', 'Fuzinelli'),
